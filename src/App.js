@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useHistory } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Account from './components/Account/Account';
 import Dashboard from "./components/Dashboard/Dashboard";
 import Friends from './components/Friends/Friends';

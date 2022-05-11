@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from '../../utils/axios';
 
 // mui setup
@@ -12,7 +12,7 @@ const UserSearch = () => {
     const [queryStr, setQueryStr] = useState('');
     const [usersList, setUsersList] = useState([]);
     const [error, setError] = useState(null);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -32,7 +32,7 @@ const UserSearch = () => {
             .then((results) => {
                 if (results.data.user) {
                     // tempted to try something else for this
-                    history.push(`/users/${results.data.user._id}`);
+                    navigate(`/users/${results.data.user._id}`);
                 } else {
                     setError(results.data.error);
                     setTimeout(() => {
@@ -52,7 +52,7 @@ const UserSearch = () => {
         .then((results) => {
             if (results.data.user) {
                 // tempted to try something else for this
-                history.push(`/users/${results.data.user._id}`);
+                navigate(`/users/${results.data.user._id}`);
             } else {
                 setError(results.data.error);
                 setTimeout(() => {

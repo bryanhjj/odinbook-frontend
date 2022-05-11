@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // mui setup
 import Avatar from '@mui/material/Avatar';
 
 const UseAvatar = ({user}) => {
     const [initials, setInitials] = useState('');
-    const history = useHistory();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (user) {
@@ -15,7 +15,7 @@ const UseAvatar = ({user}) => {
     });
 
     const handleAvatarClick = () => {
-        history.push(`/users/${user._id}`);
+        navigate(`/users/${user._id}`);
     }
 
     return (

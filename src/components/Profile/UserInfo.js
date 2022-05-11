@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import axiosFns from "../../utils/axiosFns";
 import FriendButtons from "./FriendButtons";
@@ -18,7 +18,7 @@ const UserInfo = ({
     const [friendsArr, setFriendsArr] = useState([]);
     const [friendReqSent, setFriendReqSent] = useState([]);
     const [friendReqRec, setFriendReqRec] = useState([]);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {handleAcceptRequest, handleDenyRequest} = axiosFns({
         userFriends: friendsArr,
@@ -45,14 +45,14 @@ const UserInfo = ({
 
     const acceptFriendReq = (id) => {
         handleAcceptRequest(id);
-        history.push('/temp');
-        history.goBack();
+        navigate('/temp');
+        navigate.goBack();
     };
 
     const denyFriendReq = (id) => {
         handleDenyRequest(id);
-        history.push('/temp');
-        history.goBack();
+        navigate('/temp');
+        navigate.goBack();
     };
 
     return (

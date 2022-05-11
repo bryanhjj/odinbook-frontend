@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import UseAvatar from "../../UseAvatar";
 import ConfirmDialog from "./ConfirmDialog";;
@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 const Account = ({user, setUser}) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const toggleDialog = () => {
         setDialogOpen(!dialogOpen);
@@ -23,7 +23,7 @@ const Account = ({user, setUser}) => {
     const handleDelete = () => {
         setDialogOpen(false);
         setUser('');
-        history.push('/login');
+        navigate('/login');
         axios.delete(`/users/${user.id}`);
     };
 

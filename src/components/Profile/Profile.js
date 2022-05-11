@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import useHistory from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Post from "../Posts/Post";
 import PostContainer from "../Posts/PostContainer";
 import axios from "../../utils/axios";
@@ -22,7 +22,7 @@ const Profile = ({user, setUser}) => {
     const [imageEditing, setImageEditing] = useState(false);
     const [skip, setSkip] = useState(0);
     const { userId } = useParams();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {
         getPosts,
@@ -45,7 +45,7 @@ const Profile = ({user, setUser}) => {
           .catch((err) => {
             if (err.response.status === 500 || err.response.status === 401) {
               setUser("");
-              history.push("/login");
+              navigate("/login");
             }
           });
     }, [userId]);

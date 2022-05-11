@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // mui setup for the NavBar
 import AppBar from '@mui/material/AppBar';
@@ -18,7 +18,7 @@ import MenuItem from '@mui/material/MenuItem';
 // Need to implement a GET for user friends in the backend, that or remove the Friends page
 // Could use GET specific user and from there on populate the friend_list arr and parse accordingly
 const NavBar = ({user, setUser}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = useState(null);
     const [anchorElUser, setAnchorElUser] = useState(null);
 
@@ -42,23 +42,23 @@ const NavBar = ({user, setUser}) => {
         setUser('');
         handleClose();
         setDrawerOpen(false);
-        history.push('/login');
+        navigate('/login');
     }
 
     const handleLogoClick = () => {
         if (user) {
-            history.push('/');
+            navigate('/');
         } else {
-            history.push('/login');
+            navigate('/login');
         }
     }
 
     const handleFriendListClick = () => {
-      history.push('/friends');
+      navigate('/friends');
     }
 
     const handleProfileClick = () => {
-        history.push(`/users/${user.id}`);
+        navigate(`/users/${user.id}`);
         handleClose();
     }
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CommentContainer from "../Comments/CommentContainer";
 import UseAvatar from "../../UseAvatar";
 
@@ -13,14 +13,14 @@ import CommentIcon from '@mui/icons-material/Comment';
 // the handle functions are all defined in axiosFns
 const Post = ({user, post, handleCommentSend, handleLikePost, handleLikeComment}) => {
     const [showCommentForm, setShowCommentForm] = useState(false);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const toggleShowComment = () => {
         setShowCommentForm(!showCommentForm);
     }
 
     const handleNameClick = () => {
-        history.push(`/users/${post.post_author._id}`);
+        navigate(`/users/${post.post_author._id}`);
     }
 
     return (

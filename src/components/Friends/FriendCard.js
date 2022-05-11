@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UseAvatar from '../../UseAvatar';
 
 // mui setup
@@ -8,10 +8,10 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 const FriendCard = ({friend}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleClick = () => {
-        history.push(`/users/${friend._id}`);
+        navigate(`/users/${friend._id}`);
     }
 
     return (

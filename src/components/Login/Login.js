@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import LoginForm from "./LoginForm";
 
 const Login = ({user, setUser}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const [errors, setErr] = useState([]);
     const [registerErrors, setRegErrors] = useState([])
 
@@ -23,7 +23,7 @@ const Login = ({user, setUser}) => {
             };
             axios.defaults.headers.common['Authorization'] = results.data.token.token;
             setUser(user);
-            history.push('/');
+            navigate('/');
         }).catch((err) => {
             if (err.response.data.errors) {
                 setErr(err.response.data.errors);
@@ -54,7 +54,7 @@ const Login = ({user, setUser}) => {
             };
         axios.defaults.headers.common['Authorization'] = results.data.token.token;
         setUser(user);
-        history.push('/');
+        navigate('/');
         })
         .catch((err) => {
             if (err.response.data.errors) {
@@ -87,7 +87,7 @@ const Login = ({user, setUser}) => {
                 facebookId: results.data.user.facebookId
             };
             setUser(user);
-            history.push('/');
+            navigate('/');
         })
     }
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import axiosFns from "../../utils/axiosFns";
 import NewPostFrom from "../Posts/NewPostForm";
@@ -18,10 +18,10 @@ const Dashboard = ({user, setUser}) => {
     const [userFriends, setUserFriends] = useState([]);
     const [friendRequests, setFriendRequests] = useState([]);
     const [skip, setSkip] = useState(0);
-    const history = useHistory();
+    const navigate = useNavigate();
 
     if (!user) {
-        history.push('/login');
+        navigate('/login');
     }
 
     const {
@@ -58,7 +58,7 @@ const Dashboard = ({user, setUser}) => {
             })
             .catch((err) => {
                 if (err.response && (err.response == 500 || err.response == 401)) {
-                    history.push('/login');
+                    navigate('/login');
                 };
             });
         };
