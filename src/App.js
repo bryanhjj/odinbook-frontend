@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Routes, Route, useHistory } from "react-router-dom";
 import Account from './components/Account/Account';
 import Dashboard from "./components/Dashboard/Dashboard";
 import Friends from './components/Friends/Friends';
@@ -17,23 +17,13 @@ function App() {
   return (
     <div>
       <NavBar user={user} setUser={setUser}/>
-      <Switch>
-          <Route path='/login'>
-            <Login user={user} setUser={setUser}/>
-          </Route>
-          <Route path='/account'>
-            <Account user={user} setUser={setUser}/>
-          </Route>
-          <Route path='/friends'>
-            <Friends user={user}/>
-          </Route>
-          <Route path='/users/:userId'>
-            <Profile user={user} setUser={setUser}/>
-          </Route>
-          <Route exact path="/">
-            <Dashboard user={user} setUser={setUser}/>
-          </Route>
-      </Switch>
+      <Routes>
+          <Route path='/login' element={<Login user={user} setUser={setUser} />}/>
+          <Route path='/account' element={<Account user={user} setUser={setUser}/>} />
+          <Route path='/friends' element={<Friends user={user} />} />
+          <Route path='/users/:userId' element={<Profile user={user} setUser={setUser} />} />
+          <Route path="/" element={<Dashboard user={user} setUser={setUser}/> } />
+      </Routes>
     </div>
   );
 };
