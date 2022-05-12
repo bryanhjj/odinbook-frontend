@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UseAvatar from "../../UseAvatar";
 
 // mui setup
@@ -13,10 +13,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import NotInterestedIcon from '@mui/icons-material/NotInterested';
 
 const FriendList = ({friends, friendReqs, handleAcceptRequest, handleDenyRequest}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleAvatarClick = (id) => {
-        history.push(`/users/${id}`);
+        navigate(`/users/${id}`);
     };
 
     return (
