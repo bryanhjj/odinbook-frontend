@@ -5,7 +5,7 @@ import axiosFns from "../../utils/axiosFns";
 import NewPostFrom from "../Posts/NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import FriendsList from "../Friends/FriendList";
-import LinkList from "../LinkList";
+import LinkList from "../../LinkList";
 
 // mui setup
 import Container from '@mui/material/Container';

@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import UseAvatar from "./UseAvatar";
 
 // mui setup
@@ -12,19 +12,18 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const LinkList = ({user}) => {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const handleAvatarClick = (id) => {
-        history.push(`/users/${id}`);
+        navigate(`/users/${id}`);
     };
 
     const handleFriendsClick = () => {
-        history.push('/friends');
+        navigate('/friends');
     }
 
     const handleSettingsClick = () => {
-        // to implement this in backend, url to be determined
-        history.push('/account');
+        navigate('/account');
     }
 
     return (
