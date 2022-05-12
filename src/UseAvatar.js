@@ -12,7 +12,7 @@ const UseAvatar = ({user}) => {
         if (user) {
             setInitials(`${user.first_name[0]} ${user.last_name[0]}`);
         }
-    });
+    }, [user]);
 
     const handleAvatarClick = () => {
         navigate(`/users/${user._id}`);
@@ -24,7 +24,7 @@ const UseAvatar = ({user}) => {
             src={user.profile_pic ? user.profile_pic : ''}
             onClick={handleAvatarClick}
         >
-            {`${user.first_name} ${user.last_name}`}
+            {`${user.first_name} ${user.last_name}`} {initials}
         </Avatar>
     );
 };

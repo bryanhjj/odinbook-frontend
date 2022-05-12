@@ -46,7 +46,7 @@ const Dashboard = ({user, setUser}) => {
 
     useEffect(() => {
         getPosts();
-    }, [skip])
+    }, [skip]);
 
     useEffect(() => {
         if (user) {
@@ -57,7 +57,8 @@ const Dashboard = ({user, setUser}) => {
                 setFriendRequests(results.data.user.friend_req_rec);
             })
             .catch((err) => {
-                if (err.response && (err.response == 500 || err.response == 401)) {
+                if (err.response && (err.response === 500 || err.response === 401)) {
+                    setUser('');
                     navigate('/login');
                 };
             });

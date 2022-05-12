@@ -13,6 +13,7 @@ require("dotenv").config();
 
 function App() {
   const [user, setUser] = useLocalStorage("user", "");
+  const navigate = useNavigate();
 
   return (
     <div>

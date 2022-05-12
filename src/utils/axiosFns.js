@@ -57,14 +57,14 @@ const axiosFns = (
             .put(`/posts/${postId}/like`)
             .then((results) => {
                 const updatedPosts = [...posts];
-                const targetPost = updatedPosts.findIndex((post) => post._id == postId);
+                const targetPost = updatedPosts.findIndex((post) => post._id === postId);
                 // if the user has not previously liked the post
                 if (!updatedPosts[targetPost].post_likes.includes(user.id)) {
                     updatedPosts[targetPost].post_likes.push(user.id);
                 } else {
                     // the user has previously liked the post but changed their minds and wants to un-like it
                     updatedPosts[targetPost].post_likes = updatedPosts[targetPost].post_likes.filter((id) => 
-                        id != user.id
+                        id !== user.id
                     );
                 }
                 setPosts(sortPosts(updatedPosts));
@@ -76,7 +76,7 @@ const axiosFns = (
             .post(`/posts/${postId}/comments`, {comment_content:commentContent})
             .then((results) => {
                 const updatedPosts = [...posts];
-                const targetPost = updatedPosts.findIndex((post) => post._id == postId);
+                const targetPost = updatedPosts.findIndex((post) => post._id === postId);
                 updatedPosts[targetPost].post_comments = [...updatedPosts[targetPost].post_comments, results.data.comment_content];
                 setPosts(sortPosts(updatedPosts));
             });
@@ -87,8 +87,8 @@ const axiosFns = (
             .put(`/posts/${postId}/comments/${commentId}/like`)
             .then((results) => {
                 const updatedPosts = [...posts];
-                const targetPost = updatedPosts.findIndex((post) => post._id == postId);
-                const targetComment = updatedPosts[targetPost].post_comments.findIndex((c) => c._id == commentId);
+                const targetPost = updatedPosts.findIndex((post) => post._id === postId);
+                const targetComment = updatedPosts[targetPost].post_comments.findIndex((c) => c._id === commentId);
                 // if the user has not previously liked the comment
                 if (!updatedPosts[targetPost].post_comments[targetComment].comment_likes.includes(user.id)) {
                     updatedPosts[targetPost].post_comments[targetComment].comment_likes.push(user.id);
@@ -96,7 +96,7 @@ const axiosFns = (
                     // user has previously liked the comment and is now un-liking it
                     updatedPosts[targetPost].post_comments[targetComment].comment_likes =
                     updatedPosts[targetPost].post_comments[targetComment].comment_likes.filter((id) => 
-                        id != user.id
+                        id !== user.id
                     );
                 };
             });
@@ -109,7 +109,7 @@ const axiosFns = (
                 setUserFriends(results.data.user.friend_list);
                 // removing the request from friendRequests
                 const updatedFriendReqs = friendRequests.filter((friendReq) => 
-                    friendReq._id != id
+                    friendReq._id !== id
                 );
                 setFriendRequests(updatedFriendReqs);
             });
@@ -120,7 +120,7 @@ const axiosFns = (
             .delete(`/users/decline`, { data: {target_userId: id} })
             .then((results) => {
                 const updatedFriendReqs = friendRequests.filter((friendReq) => 
-                    friendReq._id != id
+                    friendReq._id !== id
                 );
                 setFriendRequests(updatedFriendReqs);
             });

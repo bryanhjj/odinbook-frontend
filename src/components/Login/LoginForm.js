@@ -14,7 +14,7 @@ const LoginForm = (props) => {
     const [err, setErr] = useState(null);
 
     const handleKeyPress = (event) => {
-        if (event.key == 'Enter') {
+        if (event.key === 'Enter') {
             handleClick();
         }
     }
