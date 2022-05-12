@@ -1,15 +1,14 @@
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import { Typography } from "@mui/material";
+import Button from '@mui/material/Button';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import UseAvatar from "../../UseAvatar";
 import ConfirmDialog from "./ConfirmDialog";;
 
-// mui setup
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { Typography } from "@mui/material";
-import Button from '@mui/material/Button';
 
 const Account = ({user, setUser}) => {
     const [dialogOpen, setDialogOpen] = useState(false);

@@ -15,8 +15,6 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
-// Need to implement a GET for user friends in the backend, that or remove the Friends page
-// Could use GET specific user and from there on populate the friend_list arr and parse accordingly
 const NavBar = ({user, setUser}) => {
     const navigate = useNavigate();
     const [anchorElNav, setAnchorElNav] = useState(null);
@@ -40,8 +38,7 @@ const NavBar = ({user, setUser}) => {
 
     const handleLogout = () => {
         setUser('');
-        handleClose();
-        setDrawerOpen(false);
+        handleCloseNavMenu();
         navigate('/login');
     }
 
@@ -59,7 +56,7 @@ const NavBar = ({user, setUser}) => {
 
     const handleProfileClick = () => {
         navigate(`/users/${user.id}`);
-        handleClose();
+        handleCloseNavMenu();
     }
 
     return(
@@ -122,19 +119,7 @@ const NavBar = ({user, setUser}) => {
               onClick={handleLogoClick}
             >
               LOGO
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
-            </Box>
-            
+            </Typography>           
             {user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">

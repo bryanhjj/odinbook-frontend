@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Post from "../Posts/Post";
+import NewPostForm from "../Posts/NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import axios from "../../utils/axios";
 import axiosFns from "../../utils/axiosFns";
-import LinkList from "../LinkList";
+import LinkList from "../../LinkList";
 import UserInfo from "./UserInfo";
 import EditProfileForm from "./EditProfileForm";
 import EditProfilePicForm from "./EditProfilePicForm";

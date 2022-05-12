@@ -30,7 +30,7 @@ const NewPostForm = ({user, handlePostSend}) => {
         setShowImgForm(!showImgForm);
     }
 
-    const handleImgChange = () => {
+    const handleImgChange = (e) => {
         setImageFile(e.target.files[0]);
         setImgPreview(URL.createObjectURL(e.target.files[0]));
     }
