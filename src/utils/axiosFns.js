@@ -1,9 +1,9 @@
 import axios from "./axios";
 
 const sortPosts = (arr) => {
-    const sorted = arr.sort(function(a, b){
-        new Date(b.post_timestamp) - new Date(a.post_timestamp);
-    });
+    const sorted = arr.sort((a, b) =>
+        new Date(b.post_timestamp) - new Date(a.post_timestamp)
+    );
     return sorted;
 };
 
@@ -63,9 +63,9 @@ const axiosFns = (
                     updatedPosts[targetPost].post_likes.push(user.id);
                 } else {
                     // the user has previously liked the post but changed their minds and wants to un-like it
-                    updatedPosts[targetPost].post_likes = updatedPosts[targetPost].post_likes.filter((id) => {
-                        id != user.id;
-                    });
+                    updatedPosts[targetPost].post_likes = updatedPosts[targetPost].post_likes.filter((id) => 
+                        id != user.id
+                    );
                 }
                 setPosts(sortPosts(updatedPosts));
             });
@@ -95,9 +95,9 @@ const axiosFns = (
                 } else {
                     // user has previously liked the comment and is now un-liking it
                     updatedPosts[targetPost].post_comments[targetComment].comment_likes =
-                    updatedPosts[targetPost].post_comments[targetComment].comment_likes.filter((id) => {
-                        id != user.id;
-                    });
+                    updatedPosts[targetPost].post_comments[targetComment].comment_likes.filter((id) => 
+                        id != user.id
+                    );
                 };
             });
         }
@@ -108,9 +108,9 @@ const axiosFns = (
             .then((results) => {
                 setUserFriends(results.data.user.friend_list);
                 // removing the request from friendRequests
-                const updatedFriendReqs = friendRequests.filter((friendReq) => {
-                    friendReq._id != id;
-                });
+                const updatedFriendReqs = friendRequests.filter((friendReq) => 
+                    friendReq._id != id
+                );
                 setFriendRequests(updatedFriendReqs);
             });
         };
@@ -119,9 +119,9 @@ const axiosFns = (
             axios
             .delete(`/users/decline`, { data: {target_userId: id} })
             .then((results) => {
-                const updatedFriendReqs = friendRequests.filter((friendReq) => {
-                    friendReq._id != id;
-                });
+                const updatedFriendReqs = friendRequests.filter((friendReq) => 
+                    friendReq._id != id
+                );
                 setFriendRequests(updatedFriendReqs);
             });
         };
