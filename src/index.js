@@ -4,6 +4,7 @@ import './index.css';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+require('dotenv').config();
 
 ReactDOM.render(
   <BrowserRouter>
