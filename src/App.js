@@ -19,11 +19,11 @@ function App() {
     <div>
       <NavBar user={user} setUser={setUser}/>
       <Routes>
-          <Route path='/login' element={<Login user={user} setUser={setUser} />}/>
-          <Route path='/account' element={<Account user={user} setUser={setUser}/>} />
-          <Route path='/friends' element={<Friends user={user} />} />
-          <Route path='/users/:userId' element={<Profile user={user} setUser={setUser} />} />
-          <Route path="/" element={<Dashboard user={user} setUser={setUser}/> } />
+          <Route exact path='/login' element={<Login user={user} setUser={setUser} />}/>
+          <Route exact path='/account' element={<Account user={user} setUser={setUser}/>} />
+          <Route exact path='/friends' element={<Friends user={user} />} />
+          <Route exact path='/users/:userId' element={<Profile user={user} setUser={setUser} />} />
+          <Route exact path="/" element={<Dashboard user={user} setUser={setUser}/> } />
       </Routes>
     </div>
   );

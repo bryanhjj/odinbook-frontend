@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 require('dotenv').config();
 
 ReactDOM.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/">
     <App />
   </BrowserRouter>,
   document.getElementById('root')
