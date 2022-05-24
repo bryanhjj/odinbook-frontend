@@ -38,7 +38,6 @@ const Registration = (props) => {
                     required
                     id="outlined-required"
                     label="First Name"
-                    defaultValue=""
                     onChange = {(e) => setFirstName(e.target.value)}
                     value={firstName}
                 />
@@ -46,7 +45,6 @@ const Registration = (props) => {
                     required
                     id="outlined-required"
                     label="Last Name"
-                    defaultValue=""
                     onChange = {(e) => setLastName(e.target.value)}
                     value={lastName}
                 />
@@ -54,7 +52,6 @@ const Registration = (props) => {
                     required
                     id="outlined-required"
                     label="Username"
-                    defaultValue=""
                     onChange = {(e) => setUsername(e.target.value)}
                     value={username}
                 />
@@ -62,7 +59,6 @@ const Registration = (props) => {
                     required
                     id="outlined-required"
                     label="E-mail"
-                    defaultValue=""
                     onChange = {(e) => setEmail(e.target.value)}
                     value={email}
                 />

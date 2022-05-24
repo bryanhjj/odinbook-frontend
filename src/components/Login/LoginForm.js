@@ -38,7 +38,6 @@ const LoginForm = (props) => {
                     required
                     id="outlined-required"
                     label="Username"
-                    defaultValue=""
                     onChange = {(e) => setUsername(e.target.value)}
                     value={username}
                 />
