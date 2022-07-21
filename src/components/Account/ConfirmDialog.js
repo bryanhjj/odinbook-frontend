@@ -11,6 +11,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 const ConfirmDialog = ({dialogOpen, toggleDialog, handleDelete}) => {
     return (
         <Dialog
+            sx={{backgroundColor: 'rgb(23, 24, 25)'}}
             open={dialogOpen}
             onClose={toggleDialog}
             aria-labelledby="alert-dialog-title"
