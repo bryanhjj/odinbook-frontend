@@ -27,8 +27,12 @@ const Dashboard = ({user, setUser}) => {
     const {
         getPosts,
         handlePostSend,
+        handlePostEdit,
+        handlePostDelete,
         handleLikePost,
         handleCommentSend,
+        handleCommentEdit,
+        handleCommentDelete,
         handleLikeComment,
         handleAcceptRequest,
         handleDenyRequest,
@@ -53,8 +57,8 @@ const Dashboard = ({user, setUser}) => {
             axios
             .get(`/users/${user.id}`)
             .then((results) => {
-                setUserFriends(results.data.user.friend_list);
-                setFriendRequests(results.data.user.friend_req_rec);
+                setUserFriends(results.data.user.user.friend_list);
+                setFriendRequests(results.data.user.user.friend_req_rec);
             })
             .catch((err) => {
                 if (err.response && (err.response === 500 || err.response === 401)) {
@@ -77,28 +81,33 @@ const Dashboard = ({user, setUser}) => {
             <div>
                 <Grid container spacing={3}>
                     
-                    <Grid item md={3} sx={{display: {xs:'none', md:'block'}}}>
+                    <Grid item md={3} sx={{display: {xs:'none', md:'block'}, marginTop: '8px'}}>
                         <Paper>
                             <LinkList user={user}/>
                         </Paper>
                     </Grid>
 
-                    <Grid item xs={12} md={6}>
+                    <Grid item xs={12} md={6} sx={{marginTop: '8px'}}>
                         <Paper>
-                            <NewPostFrom user={user} handlePostSend={handlePostSend}/>
+                            <NewPostFrom user={user} handlePostSend={handlePostSend} getPosts={getPosts}/>
                         </Paper>
                         <PostContainer
                             user={user}
                             posts={posts}
+                            handlePostEdit={handlePostEdit}
+                            handlePostDelete={handlePostDelete}
                             handleCommentSend={handleCommentSend}
+                            handleCommentEdit={handleCommentEdit}
+                            handleCommentDelete={handleCommentDelete}
                             handleLikePost={handleLikePost}
                             handleLikeComment={handleLikeComment}
                             handleScroll={handleScroll}
                             loading={loadingPosts}
+                            getPosts={getPosts}
                         />
                     </Grid>
 
-                    <Grid item sx={{display: {xs:'none', md:'block'}}}>
+                    <Grid item md={3} sx={{display: {xs:'none', md:'block'}, marginTop: '8px'}}>
                         <Paper>
                             <FriendsList
                                 friends={userFriends}
