@@ -1,4 +1,6 @@
 {
+  "homepage": "http://localhost:3000/login",
+  "proxy":"http://localhost:3000",
   "name": "odin-book-frontend",
   "version": "0.1.0",
   "private": true,
