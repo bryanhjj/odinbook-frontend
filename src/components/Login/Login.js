@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import axios from "../../utils/axios";
 import LoginForm from "./LoginForm";
 
+// mui setup
+import Box from '@mui/material/Box';
+
 const Login = ({user, setUser}) => {
     const navigate = useNavigate();
     const [errors, setErr] = useState([]);
@@ -25,7 +28,7 @@ const Login = ({user, setUser}) => {
             setUser(user);
             navigate('/');
         }).catch((err) => {
-            if (err.response.data.errors) {
+            if (err) {
                 setErr(err.response.data.errors);
                 setTimeout(() => {
                     setErr({});
@@ -39,8 +42,8 @@ const Login = ({user, setUser}) => {
         });
     }
 
-    const handleRegister = (first_name, last_name, username, email, phone_number) => {
-        axios.post('/auth/register', {first_name, last_name, username, email, phone_number})
+    const handleRegister = (first_name, last_name, username, password, email, phone_number, confirm_password) => {
+        axios.post('/auth/register', {first_name, last_name, username, password, email, phone_number, confirm_password})
         .then((results) => {
             const user = {
                 first_name: results.data.user.first_name,
@@ -58,11 +61,13 @@ const Login = ({user, setUser}) => {
         })
         .catch((err) => {
             if (err.response.data.errors) {
+                console.log(err);
                 setRegErrors(err.response.data.errors);
                 setTimeout(() => {
                     setRegErrors([]);
                 }, 3000);
             } else if (err.response.data.message) {
+                console.log(err);
                 setRegErrors([...registerErrors, {msg: err.response.data.message}]);
                 setTimeout(() => {
                     setRegErrors([]);
@@ -92,13 +97,19 @@ const Login = ({user, setUser}) => {
     }
 
     return (
-        <div>
+        <Box                 
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                margin: 'auto',
+        }}>
             <LoginForm 
                 handleLogin = {handleLogin}
                 handleFBLogin = {handleFBLogin}
                 handleRegistration = {handleRegister}
             />
-        </div>
+        </Box>
     )
 };
 
