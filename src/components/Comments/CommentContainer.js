@@ -7,18 +7,26 @@ const CommentContainer = ({
     showCommentForm,
     user,
     handleCommentSend,
-    handleLikeComment
+    handleCommentEdit,
+    handleCommentDelete,
+    handleLikeComment,
+    getPosts,
 }) => {
     return (
         <div>
             {post.post_comments.map((comment) => {
                 return (
-                    <Comment 
-                        comment={comment}
-                        handleLikeComment={handleLikeComment}
-                        postId={post._id}
-                        key={comment._id}
-                    />
+                    <div key={comment._id}>
+                        <Comment 
+                            user={user}
+                            comment={comment}
+                            handleLikeComment={handleLikeComment}
+                            handleCommentEdit={handleCommentEdit}
+                            handleCommentDelete={handleCommentDelete}
+                            postId={post._id}
+                            getPosts={getPosts}
+                        />
+                    </div>
                 )
             })}
             {showCommentForm ? (
@@ -26,6 +34,7 @@ const CommentContainer = ({
                     user={user}
                     handleCommentSend={handleCommentSend}
                     postId={post._id}
+                    getPosts={getPosts}
                 />
             ) : null}
         </div>
