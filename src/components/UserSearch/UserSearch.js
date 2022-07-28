@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
 
 const UserSearch = () => {
     const [queryStr, setQueryStr] = useState('');
@@ -18,7 +19,7 @@ const UserSearch = () => {
         axios
         .get('/users')
         .then((results) => {
-            setUsersList(results.users);
+            setUsersList(results.data.users);
         })
     }, []);
 
@@ -67,18 +68,21 @@ const UserSearch = () => {
     };
 
     return (
-        <div>
-            <Typography variant="h5">Search for another user</Typography>
+        <Box>
+            <Typography variant="h5">
+                Search for another user
+            </Typography>
             <TextField
+                sx={{width: '90%', marginLeft: '8px'}}
                 id="outlined-search"
-                label="User name"
+                label="Username"
                 type="search"
                 onChange={(e) => setQueryStr(e.target.value)}
                 onKeyPress={handleKeyPress}
                 value={queryStr}
             />
-            <IconButton onClick={handleSearchBtnClick}>
-                <SearchIcon/>
+            <IconButton onClick={handleSearchBtnClick} sx={{marginLeft: '8px', paddingTop: '9px'}}>
+                <SearchIcon fontSize="large"/>
             </IconButton>
             {error && (
                 <div>
@@ -87,7 +91,7 @@ const UserSearch = () => {
                     </Typography>
                 </div>
             )}
-        </div>
+        </Box>
     );
 };
 
