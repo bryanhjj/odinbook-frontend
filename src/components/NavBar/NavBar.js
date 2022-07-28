@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UseAvatar from "../../UseAvatar";
 
 // mui setup for the NavBar
 import AppBar from '@mui/material/AppBar';
@@ -10,8 +11,6 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -21,46 +20,53 @@ const NavBar = ({user, setUser}) => {
     const [anchorElUser, setAnchorElUser] = useState(null);
 
     const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget);
+      setAnchorElNav(event.currentTarget);
     };
 
     const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
+      setAnchorElUser(event.currentTarget);
     };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
+      setAnchorElNav(null);
     };
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+      setAnchorElUser(null);
     };
 
     const handleLogout = () => {
-        setUser('');
-        handleCloseNavMenu();
-        navigate('/login');
+      setUser('');
+      handleCloseUserMenu();
+      navigate('/login');
     }
 
     const handleLogoClick = () => {
-        if (user) {
-            navigate('/');
-        } else {
-            navigate('/login');
-        }
+      handleCloseNavMenu();
+      if (user) {
+        navigate('/');
+      } else {
+        navigate('/login');
+      }
     }
 
     const handleFriendListClick = () => {
+      handleCloseNavMenu();
       navigate('/friends');
     }
 
     const handleProfileClick = () => {
-        navigate(`/users/${user.id}`);
-        handleCloseNavMenu();
+      handleCloseUserMenu();
+      navigate(`/users/${user.id}`);
+    }
+
+    const handleSettingsClick = () => {
+      handleCloseUserMenu();
+      navigate(`/account`);
     }
 
     return(
-      <AppBar position="static">
+      <AppBar position="static" sx={{backgroundColor: '#4267B2'}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <Typography
@@ -68,8 +74,9 @@ const NavBar = ({user, setUser}) => {
               noWrap
               component="div"
               sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+              onClick={handleLogoClick}
             >
-              LOGO
+              Odinbook
             </Typography>
   
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -88,7 +95,7 @@ const NavBar = ({user, setUser}) => {
                 id="menu-appbar"
                 anchorEl={anchorElNav}
                 anchorOrigin={{
-                  vertical: 'bottom',
+                  vertical: 'top',
                   horizontal: 'left',
                 }}
                 keepMounted
@@ -118,13 +125,13 @@ const NavBar = ({user, setUser}) => {
               sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
               onClick={handleLogoClick}
             >
-              LOGO
+              Odinbook
             </Typography>           
             {user ? (
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt='Your profile picture' src='to-update-with-user-pfp-path' />
+                  <UseAvatar user={user} />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -143,16 +150,18 @@ const NavBar = ({user, setUser}) => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key='Profile' onClick={handleCloseNavMenu}>
+                <MenuItem key='Profile' onClick={handleCloseUserMenu}>
                     <Typography textAlign="center" onClick={handleProfileClick}>Profile</Typography>
                 </MenuItem>
-                <MenuItem key='Logout' onClick={handleCloseNavMenu}>
+                <MenuItem key='Settings' onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center" onClick={handleSettingsClick}>Settings</Typography>
+                </MenuItem>
+                <MenuItem key='Logout' onClick={handleCloseUserMenu}>
                     <Typography textAlign="center" onClick={handleLogout}>Logout</Typography>
                 </MenuItem>
               </Menu>
             </Box>
             ) : null}
-            
           </Toolbar>
         </Container>
       </AppBar>
