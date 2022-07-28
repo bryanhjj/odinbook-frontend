@@ -7,14 +7,17 @@ import FriendButtons from "./FriendButtons";
 // mui setup
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
 
 const UserInfo = ({
     user,
     loggedUser,
     handleFriendReq,
-    toggleProfile,
-    toggleImage,
+    toggleEditProfile,
+    toggleEditImage,
 }) => {
+    const [initials, setInitials] = useState('');
     const [friendsArr, setFriendsArr] = useState([]);
     const [friendReqSent, setFriendReqSent] = useState([]);
     const [friendReqRec, setFriendReqRec] = useState([]);
@@ -28,6 +31,12 @@ const UserInfo = ({
     });
 
     useEffect(() => {
+        if (user) {
+            setInitials(`${user.first_name[0]} ${user.last_name[0]}`);
+        }
+    }, [user]);
+
+    useEffect(() => {
         const filteredFriendsArr = user.friend_list.map((friend) => friend._id);
         setFriendsArr(filteredFriendsArr);
     }, [user]);
@@ -36,8 +45,8 @@ const UserInfo = ({
         axios
         .get(`/users/${loggedUser.id}`)
         .then((results) => {
-            const loggedUserFriendsReqRec = results.data.user.friend_req_rec.map((friend) => friend._id);
-            const loggedFriendReqSent = results.data.user.friend_req_sent.map((friend) => friend._id);
+            const loggedUserFriendsReqRec = results.data.user.user.friend_req_rec.map((friend) => friend._id);
+            const loggedFriendReqSent = results.data.user.user.friend_req_sent.map((friend) => friend._id);
             setFriendReqRec(loggedUserFriendsReqRec);
             setFriendReqSent(loggedFriendReqSent);
         });
@@ -56,14 +65,31 @@ const UserInfo = ({
     };
 
     return (
-        <div>
-            <div>
-                <img src={user.profile_pic} alt={`${user.first_name} ${user.last_name}'s profile picture`}/>
-            </div>
-            <div>
-                <Typography variant="h5">{`${user.first_name} ${user.last_name}`}</Typography>
-                {user._id != loggedUser.id ? (
-                    <div>
+        <Box sx={{color: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+            <Box sx={{
+                borderRadius: '50%', 
+                height: '150px', 
+                width: '150px', 
+                border: '1px solid black', 
+                marginBottom: 5,
+                marginTop: 5, 
+                marginLeft: 'auto',
+                marginRight: 'auto',
+            }}>
+                <Avatar
+                    alt={`${user.first_name} ${user.last_name}`}
+                    src={user.profile_pic ? user.profile_pic : ''}
+                    sx={{height: '150px', width: '150px'}}
+                >
+                    {user.profile_pic ? null : initials}
+                </Avatar>
+            </Box>
+            <Box>
+                <Typography variant="h5">
+                    {`${user.first_name} ${user.last_name}`}
+                </Typography>
+                {user._id !== loggedUser.id ? (
+                    <Box sx={{marginBottom: '8px'}}>
                         <FriendButtons
                             user={user}
                             friendsArr={friendsArr}
@@ -74,15 +100,15 @@ const UserInfo = ({
                             acceptFriendReq={acceptFriendReq}
                             denyFriendReq={denyFriendReq}
                         />
-                    </div>
+                    </Box>
                 ) : (
-                    <div>
-                        <Button variant="contained" onClick={toggleProfile}>Edit profile</Button>
-                        <Button variant="contained" onClick={toggleImage}>Change profile picture</Button>
-                    </div>
+                    <Box sx={{marginBottom: '8px'}}>
+                        <Button variant="contained" sx={{margin: '10px 10px'}} onClick={toggleEditProfile}>Edit profile</Button>
+                        <Button variant="contained" sx={{margin: '10px 10px'}} onClick={toggleEditImage}>Change profile picture</Button>
+                    </Box>
                 )}
-            </div>
-        </div>
+            </Box>
+        </Box>
     )
 };
 
