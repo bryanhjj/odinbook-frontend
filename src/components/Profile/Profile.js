@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Post from "../Posts/Post";
 import NewPostForm from "../Posts/NewPostForm";
 import PostContainer from "../Posts/PostContainer";
 import axios from "../../utils/axios";
 import axiosFns from "../../utils/axiosFns";
-import LinkList from "../../LinkList";
 import UserInfo from "./UserInfo";
 import EditProfileForm from "./EditProfileForm";
 import EditProfilePicForm from "./EditProfilePicForm";
@@ -41,7 +39,7 @@ const Profile = ({user, setUser}) => {
         axios
           .get(`/users/${userId}`)
           .then((results) => {
-            setRelUser(results.data.user);
+            setRelUser(results.data.user.user);
           })
           .catch((err) => {
             if (err.response.status === 500 || err.response.status === 401) {
@@ -49,16 +47,16 @@ const Profile = ({user, setUser}) => {
               navigate("/login");
             }
           });
-    }, [userId]);
+    }, [user]);
 
     const handleFriendReq = (targetUserId) => {
         axios
-        .post(`/users/req`, {relUserId : targetUserId})
+        .post(`/users/req`, {target_userId : targetUserId})
         .then((results) => {
             axios
             .get(`/users/${userId}`)
             .then((results) => {
-                setRelUser(results.data.user);
+                setRelUser(results.data.user.user);
             });
         });
     };
@@ -77,7 +75,7 @@ const Profile = ({user, setUser}) => {
                 profile_pic: results.data.user.profile_pic,
             };
             setUser(updatedUser);
-            setRelUser(results.data.user);
+            setRelUser(results.data.user.user);
             axios.defaults.headers.common["Authorization"] = results.data.token.token;
         });
     };
@@ -89,16 +87,16 @@ const Profile = ({user, setUser}) => {
         .post(`/users/${user.id}/profilepic`, formData, {})
         .then((results) => {
             const updatedUser = {
-                first_name: results.data.user.first_name,
-                last_name: results.data.user.last_name,
-                email: results.data.user.email,
-                phone_number: results.data.user.phone_number,
-                id: results.data.user._id,
+                first_name: results.data.user.user.first_name,
+                last_name: results.data.user.user.last_name,
+                email: results.data.user.user.email,
+                phone_number: results.data.user.user.phone_number,
+                id: results.data.user.user._id,
                 token: results.data.token.token,
-                profile_pic: results.data.user.profile_pic,
+                profile_pic: results.data.user.user.profile_pic,
             };
             setUser(updatedUser);
-            setRelUser(results.data.user);
+            setRelUser(results.data.user.user);
             toggleEditImage();
         });
     };
@@ -128,58 +126,56 @@ const Profile = ({user, setUser}) => {
     };
 
     return (
-        <div>
-            <Container maxWidth='x1'>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={6}>
-                        <Paper>
-                            {profileEditing ? (
-                                <EditProfileForm
-                                    user={relUser}
-                                    toggleEditProfile={toggleEditProfile}
-                                    handleProfileUpdate={handleProfileUpdate}
-                                />
-                            ) : imageEditing ? (
-                                <EditProfilePicForm
-                                    user={relUser}
-                                    toggleEditImage={toggleEditImage}
-                                    handleProfilePicUpdate={handleProfilePicUpdate}
-                                />
-                            ) : (
-                                <UserInfo
-                                    user={relUser}
-                                    loggedInUser={user}
-                                    handleFriendReq={handleFriendReq}
-                                    toggleEditProfile={toggleEditProfile}
-                                    toggleEditImage={toggleEditImage}
-                                />
-                            )}
-                        </Paper>
-                    </Grid>
-                    <Grid container spacing={3} justifyContent='center'>
-                        <Grid item xs={12} md={6}>
-                            {relUser._id === user.id ? (
-                                <Paper>
-                                    <NewPostForm
-                                        user={relUser}
-                                        handlePostSend={handlePostSend}
-                                    />
-                                </Paper>
-                            ) : null}
-                            <PostContainer
+        <Container maxWidth='x1' sx={{minHeight: '100vh', marginTop: '10px'}}>
+            <Grid container spacing={3} sx={{justifyContent: 'center'}}>
+                <Grid item xs={12} md={6}>
+                    <Paper sx={{textAlign: 'center', margin: '0 5px 20px 5px'}}>
+                        {profileEditing ? (
+                            <EditProfileForm
                                 user={relUser}
-                                posts={posts.filter((post) => post.author._id == relUser._id)}
-                                handleCommentSend={handleCommentSend}
-                                handleLikePost={handleLikePost}
-                                handleLikeComment={handleLikeComment}
-                                handleScroll={handleScroll}
-                                loadingPosts={loadingPosts}
+                                toggleEditProfile={toggleEditProfile}
+                                handleProfileUpdate={handleProfileUpdate}
                             />
-                        </Grid>
+                        ) : imageEditing ? (
+                            <EditProfilePicForm
+                                user={relUser}
+                                toggleEditImage={toggleEditImage}
+                                handleProfilePicUpdate={handleProfilePicUpdate}
+                            />
+                        ) : (
+                            <UserInfo
+                                user={relUser}
+                                loggedUser={user}
+                                handleFriendReq={handleFriendReq}
+                                toggleEditProfile={toggleEditProfile}
+                                toggleEditImage={toggleEditImage}
+                            />
+                        )}
+                    </Paper>
+                </Grid>
+                <Grid container spacing={3} sx={{justifyContent: 'center'}}>
+                    <Grid item xs={12} md={6}>
+                        {relUser._id === user.id ? (
+                            <Paper sx={{textAlign: 'center', margin: '0 5px 20px 5px'}}>
+                                <NewPostForm
+                                    user={relUser}
+                                    handlePostSend={handlePostSend}
+                                />
+                            </Paper>
+                        ) : null}
+                        <PostContainer
+                            user={relUser}
+                            posts={posts.filter((post) => post.post_author._id === relUser._id)}
+                            handleCommentSend={handleCommentSend}
+                            handleLikePost={handleLikePost}
+                            handleLikeComment={handleLikeComment}
+                            handleScroll={handleScroll}
+                            loadingPosts={loadingPosts}
+                        />
                     </Grid>
                 </Grid>
-            </Container>
-        </div>
+            </Grid>
+        </Container>
     );
 };
 
