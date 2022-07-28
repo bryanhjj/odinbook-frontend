@@ -1,4 +1,5 @@
 import axios from "./axios";
+const FormData = require('form-data');
 
 const sortPosts = (arr) => {
     const sorted = arr.sort((a, b) =>
@@ -7,7 +8,7 @@ const sortPosts = (arr) => {
     return sorted;
 };
 
-const axiosFns = (
+const axiosFns = ({
     posts,
     setPosts,
     user,
@@ -17,34 +18,68 @@ const axiosFns = (
     setUserFriends,
     friendRequests,
     setFriendRequests,
-    ) => {
+}) => {
 
         const getPosts = () => {
             if (skip === 0) {
+                // when skip === 0, sets the GET results as the posts array 
                 setLoadingPosts(true);
                 axios
                 .get(`/posts/?skip=${skip}`, { data: { skip: skip } })
                 .then((results) => {
-                    setPosts(sortPosts([...posts, results.data.posts]));
+                    setPosts(sortPosts([...results.data.posts]));
                     if (skip === 0) {
                         setLoadingPosts(false);
-                    }
+                    };
                 });
+            } else {
+                // when skip !== 0, appends the GET results (after skip) to the old posts array
+                axios
+                .get(`/posts/?skip=${skip}`, { data: { skip: skip } })
+                .then((results) => {
+                setPosts(sortPosts([...posts, ...results.data.posts]));
+                if (skip === 0) {
+                    setLoadingPosts(false);
+                };
+            });
             }
         };
 
-        const handlePostSend = async (postContent, imageFile) => {
+        const handlePostSend = async (postTitle, postContent, imageFile) => {
             if (imageFile) {
                 const formData = new FormData();
                 formData.append('post_img', imageFile);
-                const res = await axios.post('/post', {post_content: postContent});
-                // might need to change the axios.put
-                const res2 = await axios.put(`/posts/${res.data.post_id}`, formData);
-                const updatedPosts = [...posts, res2.data.post];
+                const res = await axios.post('/posts/', formData, {post_title: postTitle, post_content: postContent});
+                const updatedPosts = [...posts, res.data.post];
                 setPosts(sortPosts(updatedPosts));
             } else {
                 axios
-                .post('/posts', {post_content: postContent})
+                .post('/posts/', {post_title: postTitle, post_content: postContent})
+                .then((results) => {
+                    const updatedPosts = [...posts, results.data.post];
+                    setPosts(sortPosts(updatedPosts));
+                });
+            };
+        };
+
+        const handlePostEdit = async (postId, postTitle, postContent, imageFile) => {
+            const targetPost = await axios.get(`/posts/${postId}`);
+            // constructing the req.body so that it includes the older posts' post_like, post_comments & post_img
+            const updatedPost = {
+                post_title: postTitle,
+                post_content: postContent,
+                post_likes: targetPost.post_likes,
+                post_comments: targetPost.post_comments,
+                post_img: targetPost.post_img,
+            };
+            if (imageFile) {
+                const formData = new FormData();
+                formData.append('post_img', imageFile);
+                const res = await axios.post(`/posts/${postId}`, formData, updatedPost);
+                const updatedPosts = [...posts, res.data.post];
+                setPosts(sortPosts(updatedPosts));
+            } else {
+                axios.post(`/posts/${postId}`, updatedPost)
                 .then((results) => {
                     const updatedPosts = [...posts, results.data.post];
                     setPosts(sortPosts(updatedPosts));
@@ -69,18 +104,65 @@ const axiosFns = (
                 }
                 setPosts(sortPosts(updatedPosts));
             });
-        }
+        };
+
+        const handlePostDelete = (postId) => {
+            axios
+            .delete(`/posts/${postId}`)
+            .then((results) => {
+                const oldPosts = [...posts];
+                const filteredPosts = oldPosts.filter((p) => p._id !== postId);
+                setPosts(sortPosts(filteredPosts));
+            });
+        };
 
         const handleCommentSend = (postId, commentContent) => {
             axios
             .post(`/posts/${postId}/comments`, {comment_content:commentContent})
             .then((results) => {
+                /*
                 const updatedPosts = [...posts];
                 const targetPost = updatedPosts.findIndex((post) => post._id === postId);
-                updatedPosts[targetPost].post_comments = [...updatedPosts[targetPost].post_comments, results.data.comment_content];
+                updatedPosts[targetPost].post_comments = [...updatedPosts[targetPost].post_comments, results.data.comment];
                 setPosts(sortPosts(updatedPosts));
+                */
+                getPosts();
             });
-        }
+        };
+
+        const handleCommentEdit = async (postId, commentId, commentContent) => {
+            const targetComment = await axios.get(`/posts/${postId}/comments/${commentId}`);
+            // constructing the req.body so that it includes the older comments' related_post & comment_likes
+            const updatedComment = {
+                comment_content: commentContent,
+                related_post: targetComment.related_post,
+                comment_likes: targetComment.comment_likes,
+            };
+            axios.post(`/posts/${postId}/comments/${commentId}`, updatedComment)
+            .then((results) => {
+                /*
+                const updatedPosts = [...posts];
+                const targetPost = updatedPosts.findIndex((post) => post._id === postId);
+                updatedPosts[targetPost].post_comments = [...updatedPosts[targetPost].post_comments, results.data.comment];
+                setPosts(sortPosts(updatedPosts));
+                */
+                getPosts();
+            });
+        };
+
+        const handleCommentDelete = (postId, commentId) => {
+            axios
+            .delete(`/posts/${postId}/comments/${commentId}`)
+            .then((results) => {
+                /*
+                const updatedPosts = [...posts];
+                const targetPost = updatedPosts.findIndex((post) => post._id === postId);
+                updatedPosts[targetPost].post_comments.filter((c) => c._id !== commentId);
+                setPosts(sortPosts(updatedPosts));
+                */
+                getPosts();
+            });
+        };
 
         const handleLikeComment = (postId, commentId) => {
             axios
@@ -99,8 +181,9 @@ const axiosFns = (
                         id !== user.id
                     );
                 };
+                setPosts(sortPosts(updatedPosts));
             });
-        }
+        };
 
         const handleAcceptRequest = (id) => {
             axios
@@ -117,7 +200,7 @@ const axiosFns = (
 
         const handleDenyRequest = (id) => {
             axios
-            .delete(`/users/decline`, { data: {target_userId: id} })
+            .delete(`/users/deny`, {data: {target_userId: id}})
             .then((results) => {
                 const updatedFriendReqs = friendRequests.filter((friendReq) => 
                     friendReq._id !== id
@@ -129,8 +212,12 @@ const axiosFns = (
         return {
             getPosts,
             handlePostSend,
+            handlePostEdit,
             handleLikePost,
+            handlePostDelete,
             handleCommentSend,
+            handleCommentEdit,
+            handleCommentDelete,
             handleLikeComment,
             handleAcceptRequest,
             handleDenyRequest
