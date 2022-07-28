@@ -7,6 +7,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
 
 const LoginForm = (props) => {
     const [username, setUsername] = useState('');
@@ -26,14 +29,20 @@ const LoginForm = (props) => {
     }
 
     return (
-        <Box
-            sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off"
-        >
-            <div>
+        <ThemeProvider theme={theme}>
+            <Box
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '35ch' },
+                    width: {mobile: 100, laptop: 400},
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    margin: 'auto',
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <h1>Log in to your account</h1>
                 <TextField
                     required
                     id="outlined-required"
@@ -42,6 +51,7 @@ const LoginForm = (props) => {
                     value={username}
                 />
                 <TextField
+                    sx={{width: '100%'}}
                     id="outlined-password-input"
                     label="Password"
                     type="password"
@@ -61,8 +71,8 @@ const LoginForm = (props) => {
                 </Stack>
                 <Facebook handleFBLogin={props.handleFBLogin} />
                 <Registration handleRegistration={props.handleRegistration}/>
-            </div>
-        </Box>
+            </Box>
+        </ThemeProvider>
     )
 }
 
