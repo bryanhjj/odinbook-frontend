@@ -7,12 +7,18 @@ import Paper from '@mui/material/Paper';
 const PostContainer = ({
     user,
     posts,
+    handlePostEdit,
+    handlePostDelete,
     handleCommentSend,
+    handleCommentEdit,
+    handleCommentDelete,
     handleLikePost,
     handleLikeComment,
     handleScroll,
-    loading
+    loading,
+    getPosts,
 }) => {
+
     if (loading) {
         return (
             <div>
@@ -20,6 +26,7 @@ const PostContainer = ({
             </div>
         );
     };
+
     if (!posts.length) {
         return (
             <Paper>
@@ -37,9 +44,14 @@ const PostContainer = ({
                         <Post 
                             post={post}
                             user={user}
+                            handlePostEdit={handlePostEdit}
+                            handlePostDelete={handlePostDelete}
                             handleCommentSend={handleCommentSend}
+                            handleCommentEdit={handleCommentEdit}
+                            handleCommentDelete={handleCommentDelete}
                             handleLikePost={handleLikePost}
                             handleLikeComment={handleLikeComment}
+                            getPosts={getPosts}
                         />
                     </Paper>
                 );
