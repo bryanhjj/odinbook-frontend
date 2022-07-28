@@ -5,8 +5,12 @@ import UseAvatar from '../../UseAvatar';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import Box from '@mui/system/Box';
 
-const NewPostForm = ({user, handlePostSend}) => {
+var async = require("async");
+
+const NewPostForm = ({user, handlePostSend, getPosts}) => {
+    const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
     const [showImgForm, setShowImgForm] = useState(false);
     const [imageFile, setImageFile] = useState(null);
@@ -18,12 +22,14 @@ const NewPostForm = ({user, handlePostSend}) => {
         };
     };
 
-    const handleSubmit = () => {
-        handlePostSend(postContent, imageFile);
+    const handleSubmit = async () => {
+        await handlePostSend(postTitle, postContent, imageFile);
         setPostContent('');
+        setPostTitle('');
         setShowImgForm(false);
         setImageFile(null);
         setImgPreview(null);
+        getPosts();
     };
 
     const toggleImgForm = () => {
@@ -38,6 +44,7 @@ const NewPostForm = ({user, handlePostSend}) => {
     const handleCancel = () => {
         setImageFile(null);
         setImgPreview(null);
+        toggleImgForm();
     }
 
     if (!user) {
@@ -49,45 +56,57 @@ const NewPostForm = ({user, handlePostSend}) => {
     };
 
     return (
-        <div>
-            <div>
-                <UseAvatar user={user} />
+        <Box sx={{marginBottom: '8px', minHeight: '25vh', '& .MuiTextField-root': { m: 1, width: '97%', maxWidth: '100%'}}}>
+            <Box sx={{margin: '0px 8px 0px 8px', paddingTop: '8px'}}>
+                <UseAvatar user={user}/>
                 <TextField 
-                    variant='standard'
+                    fullWidth
+                    sx={{display: 'block', marginTop: '2px'}}
+                    id="outlined-multiline-static"
+                    placeholder="Post title here"
+                    onKeyPress={handleKeyPress}
+                    onChange={(e) => setPostTitle(e.target.value)}
+                    value={postTitle}
+                />
+                <TextField 
+                    fullWidth
+                    sx={{display: 'block', marginBottom: '2px'}}
+                    id="outlined-multiline-static"
+                    multiline
+                    rows={2}
                     placeholder="Enter your post here"
                     onKeyPress={handleKeyPress}
                     onChange={(e) => setPostContent(e.target.value)}
                     value={postContent}
-                />
+                />    
+                
                 {showImgForm ? (
-                    <div>
-                        <Button
-                            variant="contained"
-                            type="reset"
-                            onClick={handleCancel}
-                        >
-                            Cancel adding image
-                        </Button>
-                    </div>
+                    <Button
+                        variant="contained"
+                        type="reset"
+                        onClick={handleCancel}
+                    >
+                        Cancel adding image
+                    </Button>
                 ) : (
-                    <div>
-                        <Button
-                            variant="contained"
-                            startIcon={<InsertPhotoIcon />}
-                            onClick={toggleImgForm}
-                        >
-                            Add image
-                        </Button>
-                    </div>
+                    <Button
+                        sx={{margin: '8px', position: 'relative'}}
+                        variant="contained"
+                        startIcon={<InsertPhotoIcon />}
+                        onClick={toggleImgForm}
+                        size="small"
+                    >
+                        Add image
+                    </Button>
                 )}
-            </div>
+            </Box>
 
-            <div>
+            <Box>
                 {showImgForm ? (
                     <div>
                         {imgPreview ? (
                             <div>
-                                <img src={imgPreview} width="100%" />
+                                <img src={imgPreview} width="100%" alt="Preview" />
                             </div>
                         ) : (
                             <div>
@@ -101,6 +120,7 @@ const NewPostForm = ({user, handlePostSend}) => {
                             </div>
                         )}
                         <Button
+                            sx={{margin: '8px', position: 'relative'}}
                             variant="contained"
                             type="submit"
                             onClick={handleSubmit}
@@ -109,8 +129,8 @@ const NewPostForm = ({user, handlePostSend}) => {
                         </Button>
                     </div>
                 ) : null}
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 
