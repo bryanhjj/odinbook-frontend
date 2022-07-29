@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import Account from './components/Account/Account';
 import Dashboard from "./components/Dashboard/Dashboard";
 import Friends from './components/Friends/Friends';
@@ -9,11 +9,21 @@ import Profile from './components/Profile/Profile';
 import './App.css';
 import useLocalStorage from './useLocalStorage';
 
+// mui setup
+import Typography from '@mui/material/Typography';
+
 require("dotenv").config();
+
+function Copyright(props) {
+  return (
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      Copyright © 69
+    </Typography>
+  )
+};
 
 function App() {
   const [user, setUser] = useLocalStorage("user", "");
-  const navigate = useNavigate();
 
   return (
     <div>
@@ -25,6 +35,7 @@ function App() {
           <Route exact path='/users/:userId' element={<Profile user={user} setUser={setUser} />} />
           <Route exact path="/" element={<Dashboard user={user} setUser={setUser}/> } />
       </Routes>
+      <Copyright sx={{ mt: 5 }} />
     </div>
   );
 };
