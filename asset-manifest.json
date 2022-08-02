@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.5739ad41.chunk.css",
-    "main.js": "/static/js/main.217dc4c9.chunk.js",
-    "main.js.map": "/static/js/main.217dc4c9.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.51102c6d.js",
-    "runtime-main.js.map": "/static/js/runtime-main.51102c6d.js.map",
-    "static/js/2.c5420a13.chunk.js": "/static/js/2.c5420a13.chunk.js",
-    "static/js/2.c5420a13.chunk.js.map": "/static/js/2.c5420a13.chunk.js.map",
-    "static/js/3.deecbfc8.chunk.js": "/static/js/3.deecbfc8.chunk.js",
-    "static/js/3.deecbfc8.chunk.js.map": "/static/js/3.deecbfc8.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.5739ad41.chunk.css.map": "/static/css/main.5739ad41.chunk.css.map",
-    "static/js/2.c5420a13.chunk.js.LICENSE.txt": "/static/js/2.c5420a13.chunk.js.LICENSE.txt"
+    "main.css": "/odinbook-frontend/static/css/main.5739ad41.chunk.css",
+    "main.js": "/odinbook-frontend/static/js/main.5b8cb441.chunk.js",
+    "main.js.map": "/odinbook-frontend/static/js/main.5b8cb441.chunk.js.map",
+    "runtime-main.js": "/odinbook-frontend/static/js/runtime-main.eae438e8.js",
+    "runtime-main.js.map": "/odinbook-frontend/static/js/runtime-main.eae438e8.js.map",
+    "static/js/2.06d5b9e7.chunk.js": "/odinbook-frontend/static/js/2.06d5b9e7.chunk.js",
+    "static/js/2.06d5b9e7.chunk.js.map": "/odinbook-frontend/static/js/2.06d5b9e7.chunk.js.map",
+    "static/js/3.deecbfc8.chunk.js": "/odinbook-frontend/static/js/3.deecbfc8.chunk.js",
+    "static/js/3.deecbfc8.chunk.js.map": "/odinbook-frontend/static/js/3.deecbfc8.chunk.js.map",
+    "index.html": "/odinbook-frontend/index.html",
+    "static/css/main.5739ad41.chunk.css.map": "/odinbook-frontend/static/css/main.5739ad41.chunk.css.map",
+    "static/js/2.06d5b9e7.chunk.js.LICENSE.txt": "/odinbook-frontend/static/js/2.06d5b9e7.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.51102c6d.js",
-    "static/js/2.c5420a13.chunk.js",
+    "static/js/runtime-main.eae438e8.js",
+    "static/js/2.06d5b9e7.chunk.js",
     "static/css/main.5739ad41.chunk.css",
-    "static/js/main.217dc4c9.chunk.js"
+    "static/js/main.5b8cb441.chunk.js"
   ]
 }
