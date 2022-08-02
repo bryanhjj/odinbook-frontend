@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 require('dotenv').config();
 
 ReactDOM.render(
-  <BrowserRouter basename="/">
+  <BrowserRouter basename="/odinbook-frontend">
     <App />
   </BrowserRouter>,
   document.getElementById('root')
