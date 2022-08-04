@@ -48,8 +48,10 @@ const axiosFns = ({
         const handlePostSend = async (postTitle, postContent, imageFile) => {
             if (imageFile) {
                 const formData = new FormData();
+                formData.append('post_title', postTitle);
+                formData.append('post_content', postContent);
                 formData.append('post_img', imageFile);
-                const res = await axios.post('/posts/', formData, {post_title: postTitle, post_content: postContent});
+                const res = await axios.post('/posts/', formData);
                 const updatedPosts = [...posts, res.data.post];
                 setPosts(sortPosts(updatedPosts));
             } else {
