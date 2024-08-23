@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Registration from "./Registration";
-import Facebook from "./Facebook";
 
 // mui setup for LoginForm
 import Box from '@mui/material/Box';
@@ -69,7 +68,6 @@ const LoginForm = (props) => {
                 <Stack direction="row" spacing={2}>
                     <Button variant="contained" onClick={handleClick}>Login</Button>
                 </Stack>
-                <Facebook handleFBLogin={props.handleFBLogin} />
                 <Registration handleRegistration={props.handleRegistration}/>
             </Box>
         </ThemeProvider>
